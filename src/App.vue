@@ -5,29 +5,12 @@
     <div class="w-full bg-gray-100 shadow-lg p-4 rounded">
       <h1 class="mb-5 text-4xl text-center">IdeaBox</h1>
       <!-- Add Idea -->
-      <section class="mb-6">
-        <form class="sm:flex">
-          <input
-            type="text"
-            placeholder="Add your idea"
-            class="w-full p-3 sm:flex-auto"
-          />
-          <input
-            v-if="user"
-            type="submit"
-            value="Add idea"
-            class="w-full p-2 bg-gray-600 text-white sm:flex-1"
-          />
-        </form>
-        <p class="user-actions" v-if="!user">
-          Please
-          <a href="#" @click="doLogin">login</a>
-          first
-        </p>
-        <p class="user-actions" v-else>
-          Hi {{ user.displayName }}. <a href="#" @click="doLogout">Logout</a>
-        </p>
-      </section>
+      <AddIdea
+        @do-login="doLogin"
+        @do-logout="doLogout"
+        @add-idea="addIdea"
+        :user="user"
+      />
       <!-- /.Add Idea -->
       <AppIdea v-for="(idea, $index) in ideas" :key="$index" :idea="idea" />
     </div>
@@ -38,13 +21,15 @@
 
 <script>
 import AppIdea from "@/components/AppIdea";
+import AddIdea from "@/components/AddIdea";
 import seed from "./seed.json";
 import { ref } from "vue";
-import { auth, firebase } from "@/firebase.js";
+import { auth, db, firebase } from "@/firebase.js";
 
 export default {
   components: {
     AppIdea,
+    AddIdea,
   },
   setup() {
     const ideas = ref(seed.ideas);
@@ -69,22 +54,26 @@ export default {
       }
     };
 
+    const addIdea = async (data) => {
+      try {
+        await db.collection("ideas").add({
+          name: data.value,
+          user: user.value.uid,
+          userName: user.value.displayName,
+          votes: 0,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     return {
       ideas,
       user,
       doLogin,
       doLogout,
+      addIdea,
     };
   },
 };
 </script>
-
-<style scoped>
-.user-actions {
-  @apply mt-2 text-center;
-}
-
-.user-actions a {
-  @apply font-bold underline;
-}
-</style>
