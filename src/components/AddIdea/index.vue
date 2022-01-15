@@ -12,7 +12,7 @@
         v-if="user"
         type="submit"
         value="Add idea"
-        class="w-full p-2 bg-gray-600 text-white sm:flex-1"
+        class="w-full p-2 text-white bg-gray-600 sm:flex-1"
       />
     </form>
     <p class="user-actions" v-if="!user">
@@ -37,7 +37,7 @@ export default {
       type: [Object, null],
     },
   },
-  emits: ["do-login", "do-logout"],
+  emits: ["do-login", "do-logout", "add-idea"],
   setup(props, { emit }) {
     const idea = ref("");
     const doLogin = () => emit("do-login");

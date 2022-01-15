@@ -1,5 +1,5 @@
 <template>
-  <article class="p-3 mb-4 rounded-lg bg-gray-300 sm:flex sm:items-center">
+  <article class="p-3 mb-4 bg-gray-300 rounded-lg sm:flex sm:items-center">
     <!-- Info -->
     <section class="text-center sm:flex-1 sm:text-left">
       <h2 class="text-xl sm:leading-6 sm:text-2xl">
@@ -10,19 +10,7 @@
     <!-- /.Info -->
     <!-- Vote -->
     <section
-      class="
-        pt-3
-        border-t-2
-        mt-6
-        border-black
-        sm:pt-0
-        sm:pl-3
-        sm:border-t-0
-        sm:border-l-2
-        sm:mt-0
-        sm:flex
-        sm:items-center
-      "
+      class="pt-3 mt-6 border-t-2 border-black sm:pt-0 sm:pl-3 sm:border-t-0 sm:border-l-2 sm:mt-0 sm:flex sm:items-center"
     >
       <h3 class="text-3xl font-bold text-center">{{ idea.votes }}</h3>
       <nav class="flex justify-center sm:block">
@@ -44,10 +32,14 @@
 
 <script>
 export default {
+  name: "AppIdea",
   props: {
     idea: {
       type: Object,
     },
+  },
+  setup() {
+    return {};
   },
 };
 </script>
