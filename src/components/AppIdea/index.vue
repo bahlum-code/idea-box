@@ -47,7 +47,7 @@ export default {
   setup(props, { emit }) {
     const voteIdea = (type) => emit("vote-idea", { type, id: props.idea.id });
     const userVoted = computed(() => {
-      if (props.user.votes) {
+      if (props.user && props.user.votes) {
         return props.user.votes.find((item) => item === props.idea.id);
       }
 

@@ -116,7 +116,6 @@ export default {
     };
 
     const voteIdea = async ({ id, type }) => {
-      console.log("Type:", id);
       try {
         await db
           .collection("ideas")
@@ -126,7 +125,7 @@ export default {
           });
         await db
           .collection("votes")
-          .doc(user.value.id)
+          .doc(user.value.uid)
           .set(
             {
               ideas: firebase.firestore.FieldValue.arrayUnion(id),
