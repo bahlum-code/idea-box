@@ -41,7 +41,7 @@ export default {
   setup(props, { emit }) {
     const idea = ref("");
     const doLogin = () => emit("do-login");
-    const doLoout = () => emit("do-logout");
+    const doLogout = () => emit("do-logout");
     const addIdea = () => {
       emit("add-idea", idea);
       idea.value = "";
@@ -49,7 +49,7 @@ export default {
 
     return {
       doLogin,
-      doLoout,
+      doLogout,
       idea,
       addIdea,
     };
