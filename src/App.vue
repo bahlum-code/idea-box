@@ -12,13 +12,16 @@
         :user="user"
       />
       <!-- /.Add Idea -->
-      <AppIdea
-        v-for="(idea, $index) in ideas"
-        :key="$index"
-        :idea="idea"
-        :user="user"
-        @vote-idea="voteIdea"
-      />
+      <TransitionGroup name="list-complete">
+        <AppIdea
+          v-for="idea in ideas"
+          :key="idea.createdAt"
+          :idea="idea"
+          :user="user"
+          @vote-idea="voteIdea"
+          class="idea"
+        />
+      </TransitionGroup>
     </div>
     <!-- /.Main box -->
   </div>
@@ -68,7 +71,7 @@ export default {
           const newIdeas = [];
 
           snapshot.docs.forEach((doc) => {
-            let { name, user, userName, votes } = doc.data();
+            let { name, user, userName, votes, createdAt } = doc.data();
             let id = doc.id;
 
             newIdeas.push({
@@ -77,6 +80,7 @@ export default {
               userName,
               votes,
               id,
+              createdAt,
             });
           });
 
@@ -108,6 +112,7 @@ export default {
           name: data.value,
           user: user.value.uid,
           userName: user.value.displayName,
+          createdAt: Date.now(),
           votes: 0,
         });
       } catch (error) {
@@ -148,3 +153,43 @@ export default {
   },
 };
 </script>
+
+<style>
+.idea {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-complete-move {
+  transition: transform 0.3s ease;
+}
+
+.idea {
+  @apply bg-gray-200;
+}
+
+.idea:nth-of-type(1) {
+  @apply bg-red-500;
+}
+
+.idea:nth-of-type(2) {
+  @apply bg-red-400;
+}
+
+.idea:nth-of-type(3) {
+  @apply bg-red-300;
+}
+
+.idea:nth-of-type(4) {
+  @apply bg-red-200;
+}
+
+.idea:nth-of-type(5) {
+  @apply bg-red-100;
+}
+</style>
